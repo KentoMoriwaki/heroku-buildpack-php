@@ -62,7 +62,9 @@ mv bin/composer.phar bin/composer
 
 if [ -f $BUILD_DIR/www/composer.json ]; then
   echo "Installing Composer dependencies"
-  echo $PATH  PATH=$PATH:php/bin
+  MY_PHP_PATH=`which php`
+  echo $MY_PHP_PATH
+  PATH=$PATH:$MY_PHP_PATH
   export PATH
   cd $BUILD_DIR/www
   $BUILD_DIR/bin/php $BUILD_DIR/bin/composer install --prefer-dist
