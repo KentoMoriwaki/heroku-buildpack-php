@@ -44,7 +44,7 @@ curl -L http://pecl.php.net/get/memcached-2.1.0.tgz -o /tmp/memcached-2.1.0.tgz
 echo "download zlib"
 curl -L http://zlib.net/zlib-1.2.8.tar.gz -o /tmp/zlib-1.2.8.tar.gz
 echo "download libuuid"
-curl -L "ftp://ftp.ossp.org/pkg/lib/uuid/uuid-1.6.1.tar.gz" -o /tmp/uuid-1.6.1.tar.gz
+curl -L ftp://ftp.ossp.org/pkg/lib/uuid/uuid-1.6.1.tar.gz -o /tmp/uuid-1.6.1.tar.gz
 # echo "downloading pecl zip extension"
 # curl -L http://pecl.php.net/get/zip-1.10.2.tgz -o /tmp/zip-1.10.2.tgz
 
