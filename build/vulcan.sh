@@ -43,14 +43,18 @@ echo "downloading pecl-memcached"
 curl -L http://pecl.php.net/get/memcached-2.1.0.tgz -o /tmp/memcached-2.1.0.tgz
 echo "download zlib"
 curl -L http://zlib.net/zlib-1.2.8.tar.gz -o /tmp/zlib-1.2.8.tar.gz
+echo "download libuuid"
+curl -L "ftp://ftp.ossp.org/pkg/lib/uuid/uuid-1.6.1.tar.gz" -o /tmp/uuid-1.6.1.tar.gz
 # echo "downloading pecl zip extension"
 # curl -L http://pecl.php.net/get/zip-1.10.2.tgz -o /tmp/zip-1.10.2.tgz
+
 
 # tar -C /tmp -xzf /tmp/libmcrypt-2.5.7.tar.gz
 # tar -C /tmp -xzf /tmp/cyrus-sasl-2.1.25.tar.gz
 tar -C /tmp -xzf /tmp/libmemcached-1.0.16.tar.gz
 tar -C /tmp -xzf /tmp/pcre-8.32.tar.gz
 tar -C /tmp -xzf /tmp/httpd-2.4.6.tar.gz
+tar -C /tmp -xzf /tmp/uuid-1.6.1.tar.gz
 
 tar -C /tmp/httpd-2.4.6/srclib -xzf /tmp/apr-1.4.6.tar.gz
 mv /tmp/httpd-2.4.6/srclib/apr-1.4.6 /tmp/httpd-2.4.6/srclib/apr
@@ -83,9 +87,14 @@ cd /tmp/pcre-8.32
 ./configure --prefix=/app/local --enable-jit --enable-utf8
 ${MAKE} && ${MAKE} install
 
+cd /tmp/uuid-1.6.1
+./configure --prefix=/app/local/ --with-php
+${MAKE} && ${MAKE} install
+
 cd /tmp/httpd-2.4.6
 ./configure --prefix=/app/apache --enable-rewrite --enable-so --enable-deflate --enable-expires --enable-headers --enable-proxy-fcgi --with-mpm=event --with-included-apr --with-pcre=/app/local
 ${MAKE} && ${MAKE} install
+
 
 cd /tmp
 git clone git://github.com/ByteInternet/libapache-mod-fastcgi.git
@@ -102,6 +111,7 @@ ${MAKE} install
 /app/php/bin/pear config-set php_dir /app/php
 echo " " | /app/php/bin/pecl install memcache
 echo " " | /app/php/bin/pecl install apc-3.1.13
+echo " " | /app/php/bin/pecl install uuid
 /app/php/bin/pecl install igbinary
 
 # cd /tmp/cyrus-sasl-2.1.25
@@ -143,6 +153,7 @@ cp -a /app/php /tmp/build/
 cp -aL /app/local/lib/libmcrypt.so.4 /tmp/build/local/lib/
 cp -aL /app/local/lib/libmemcached.so.11 /tmp/build/local/lib/
 cp -aL /app/local/lib/libpcre.so.1 /tmp/build/local/lib/
+cp -aL /app/local/lib/libuuid.so.16 /tmp/build/local/lib/
 # cp -aL /app/local/lib/libmemcachedprotocol.so.0 /tmp/build/local/lib/
 # cp -aL /app/local/lib/libmemcachedutil.so.2 /tmp/build/local/lib/
 # cp -aL /app/local/lib/sasl2/*.so.2 /tmp/build/local/lib/sasl2/
